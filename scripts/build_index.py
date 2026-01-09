@@ -54,6 +54,18 @@ def main():
         help="Type of FAISS index",
         default=None
     )
+    parser.add_argument(
+        "--nlist",
+        type=int,
+        help="Number of IVF clusters (IVFFlat only)",
+        default=None
+    )
+    parser.add_argument(
+        "--nprobe",
+        type=int,
+        help="Number of IVF probes at search time (IVFFlat only)",
+        default=None
+    )
 
     args = parser.parse_args()
 
@@ -80,7 +92,9 @@ def main():
         llm_model=settings.model_name,
         chunk_size=args.chunk_size or settings.max_chunk_size,
         chunk_overlap=settings.chunk_overlap,
-        index_type=args.index_type or settings.faiss_index_type
+        index_type=args.index_type or settings.faiss_index_type,
+        nlist=args.nlist or settings.faiss_nlist,
+        nprobe=args.nprobe or settings.faiss_nprobe,
     )
 
     # Index documents

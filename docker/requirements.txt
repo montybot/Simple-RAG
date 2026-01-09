@@ -1,39 +1,41 @@
 # docker/requirements.txt
 
 # Core dependencies
-langchain==0.2.0
-langchain-community==0.2.0
+langchain>=0.3.13
+langchain-community>=0.3.13
+langchain-core>=0.3.33
 
 # LLM Providers (multiple options supported)
-langchain-openai==0.1.0
-langchain-anthropic==0.1.0
-langchain-mistralai==0.1.0
-langchain-ollama==0.1.0
+langchain-openai>=0.2.14
+langchain-anthropic>=0.3.5
+langchain-mistralai>=0.2.4
+langchain-ollama>=0.2.2
 
 # Document processing
-docling==1.5.0
-pypdf==4.0.0
-python-docx==1.1.0
-beautifulsoup4==4.12.0
+docling>=2.0.0
+pypdf>=4.0.0
+python-docx>=1.1.2
+beautifulsoup4>=4.12.0
 
 # Vector store
-faiss-cpu==1.8.0
-sentence-transformers==2.3.0
+faiss-cpu>=1.8.0
+sentence-transformers>=2.3.0
 
 # API and server
-fastapi==0.110.0
-uvicorn[standard]==0.27.0
-pydantic==2.6.0
-pydantic-settings==2.2.0
+fastapi>=0.115.6
+uvicorn[standard]>=0.32.1
+python-multipart>=0.0.9
+pydantic>=2.10.5
+pydantic-settings>=2.7.1
 
 # Utilities
-python-dotenv==1.0.1
-loguru==0.7.2
-tqdm==4.66.0
-numpy==1.26.0
-pandas==2.2.0
+python-dotenv>=1.0.1
+loguru>=0.7.2
+tqdm>=4.66.0
+numpy>=1.26.4
+pandas>=2.2.0
 
 # Testing (development)
-pytest==8.0.0
-pytest-asyncio==0.23.0
-httpx==0.27.0
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+httpx>=0.27.0

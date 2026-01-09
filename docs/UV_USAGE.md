@@ -145,12 +145,35 @@ source ~/.bashrc  # or ~/.zshrc
 export PATH="$HOME/.cargo/bin:$PATH"
 ```
 
-### Docker build fails with UV
+### Docker build fails with "uv: not found"
+
+**Problem:** ENV PATH is not applied in the same RUN layer.
+
+**Solution:** Use the full path to UV (note: UV installs to `/root/.local/bin/` by default):
+```dockerfile
+# Wrong (UV not found)
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
+RUN uv pip install -r requirements.txt  # ❌ Error: uv not found
+
+# Correct (use full path)
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
+RUN /root/.local/bin/uv pip install -r requirements.txt  # ✅ Works!
+```
+
+**Or install and use in same RUN:**
+```dockerfile
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    /root/.local/bin/uv pip install -r requirements.txt
+```
+
+### Docker build fails (other reasons)
 
 **Check UV installation in Dockerfile:**
 ```bash
 # Test UV in container
-docker run --rm python:3.12-slim sh -c "curl -LsSf https://astral.sh/uv/install.sh | sh && /root/.cargo/bin/uv --version"
+docker run --rm python:3.12-slim sh -c "curl -LsSf https://astral.sh/uv/install.sh | sh && /root/.local/bin/uv --version"
 ```
 
 ### Slow first build

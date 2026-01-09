@@ -27,7 +27,9 @@ class RAGPipeline:
         llm_model: str = "gpt-4-turbo-preview",
         chunk_size: int = 512,
         chunk_overlap: int = 50,
-        index_type: str = "Flat"
+        index_type: str = "Flat",
+        nlist: int = 100,
+        nprobe: int = 10,
     ):
         """
         Initialize the RAG pipeline.
@@ -38,6 +40,8 @@ class RAGPipeline:
             chunk_size: Size of document chunks
             chunk_overlap: Overlap between chunks
             index_type: Type of FAISS index
+            nlist: Number of IVF clusters (only for IVFFlat)
+            nprobe: Number of IVF probes at search time (only for IVFFlat)
         """
         logger.info("Initializing RAG Pipeline...")
 
@@ -51,7 +55,9 @@ class RAGPipeline:
 
         self.vector_store = FAISSVectorStore(
             dimension=self.embedding_model.dimension,
-            index_type=index_type
+            index_type=index_type,
+            nlist=nlist,
+            nprobe=nprobe,
         )
 
         logger.info("RAG Pipeline initialized successfully")
@@ -239,7 +245,10 @@ class RAGPipeline:
             Generated answer
         """
         try:
-            from langchain.prompts import PromptTemplate
+            try:
+                from langchain.prompts import PromptTemplate
+            except ImportError:
+                from langchain_core.prompts import PromptTemplate
 
             prompt = PromptTemplate(
                 template="""Use the following context to answer the question.

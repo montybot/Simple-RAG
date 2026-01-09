@@ -1,42 +1,46 @@
 # docker/Dockerfile
 FROM python:3.12-slim
 
-# Variables d'environnement
+# Environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     UV_SYSTEM_PYTHON=1
 
-# Installation des dépendances système
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
     git \
     poppler-utils \
     tesseract-ocr \
+    libgl1 \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Installation de UV (ultra-fast Python package installer)
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:${PATH}"
-
-# Création du répertoire de travail
+# Set working directory
 WORKDIR /app
 
-# Copie des dépendances
+# Copy requirements file
 COPY docker/requirements.txt .
 
-# Installation des packages Python avec UV (10-100x plus rapide que pip)
-RUN uv pip install -r requirements.txt
+# Install UV and Python packages in a single RUN layer
+# This ensures UV is available immediately after installation
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    /root/.local/bin/uv pip install -r requirements.txt  
+# --no-cache
 
-# Copie du code source
+# Set PATH for UV (for any future commands)
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Copy source code
 COPY src/ ./src/
 COPY scripts/ ./scripts/
 
-# Création des répertoires de données
+# Create data directories
 RUN mkdir -p /app/data/raw /app/data/processed /app/data/indices /app/logs
 
-# Exposition du port API
+# Expose API port
 EXPOSE 8000
 
-# Point d'entrée
+# Entry point
 CMD ["uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "8000"]

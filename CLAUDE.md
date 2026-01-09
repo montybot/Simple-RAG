@@ -159,19 +159,20 @@ RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     && rm -rf /var/lib/apt/lists/*
 
-# Installation de UV (ultra-fast Python package installer)
-# UV est 10-100x plus rapide que pip
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:${PATH}"
-
 # Création du répertoire de travail
 WORKDIR /app
 
 # Copie des dépendances
 COPY docker/requirements.txt .
 
-# Installation des packages Python avec UV (10-100x plus rapide que pip)
-RUN uv pip install -r requirements.txt
+# Installation de UV et des packages Python dans un seul RUN layer
+# UV est 10-100x plus rapide que pip
+# Note: UV s'installe dans /root/.local/bin/ par défaut
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    /root/.local/bin/uv pip install --no-cache -r requirements.txt
+
+# Ajouter UV au PATH pour les commandes futures
+ENV PATH="/root/.local/bin:${PATH}"
 
 # Copie du code source
 COPY src/ ./src/

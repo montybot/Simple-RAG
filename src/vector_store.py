@@ -10,16 +10,26 @@ from loguru import logger
 class FAISSVectorStore:
     """FAISS vector store manager for fast similarity search."""
 
-    def __init__(self, dimension: int = 384, index_type: str = "Flat"):
+    def __init__(
+        self,
+        dimension: int = 384,
+        index_type: str = "Flat",
+        nlist: int = 100,
+        nprobe: int = 10,
+    ):
         """
         Initialize the FAISS vector store.
 
         Args:
             dimension: Dimension of the embedding vectors
             index_type: Type of FAISS index ("Flat" or "IVFFlat")
+            nlist: Number of IVF clusters (only for IVFFlat)
+            nprobe: Number of IVF probes at search time (only for IVFFlat)
         """
         self.dimension = dimension
         self.index_type = index_type
+        self.nlist = nlist
+        self.nprobe = nprobe
         self.index = None
         self.documents = []
         self._init_index()
@@ -32,8 +42,12 @@ class FAISSVectorStore:
 
         elif self.index_type == "IVFFlat":
             quantizer = faiss.IndexFlatL2(self.dimension)
-            self.index = faiss.IndexIVFFlat(quantizer, self.dimension, 100)
-            logger.info(f"Initialized IVFFlat index with dimension {self.dimension}")
+            nlist = max(1, int(self.nlist))
+            self.index = faiss.IndexIVFFlat(quantizer, self.dimension, nlist)
+            self.index.nprobe = min(int(self.nprobe), nlist)
+            logger.info(
+                f"Initialized IVFFlat index with dimension {self.dimension}, nlist={nlist}, nprobe={self.index.nprobe}"
+            )
 
         else:
             raise ValueError(f"Unknown index type: {self.index_type}")
@@ -52,6 +66,15 @@ class FAISSVectorStore:
         # Train IVF index if needed
         if self.index_type == "IVFFlat" and not self.index.is_trained:
             logger.info("Training IVF index...")
+            if embeddings.shape[0] < self.index.nlist:
+                new_nlist = max(1, int(embeddings.shape[0]))
+                logger.warning(
+                    f"Reducing IVF nlist from {self.index.nlist} to {new_nlist} because only "
+                    f"{embeddings.shape[0]} training vectors are available."
+                )
+                quantizer = faiss.IndexFlatL2(self.dimension)
+                self.index = faiss.IndexIVFFlat(quantizer, self.dimension, new_nlist)
+                self.index.nprobe = min(int(self.nprobe), new_nlist)
             self.index.train(embeddings)
 
         # Add vectors to index
@@ -113,7 +136,9 @@ class FAISSVectorStore:
         config_path = path / "config.pkl"
         config = {
             "dimension": self.dimension,
-            "index_type": self.index_type
+            "index_type": self.index_type,
+            "nlist": self.nlist,
+            "nprobe": self.nprobe,
         }
         with open(config_path, "wb") as f:
             pickle.dump(config, f)
@@ -134,10 +159,14 @@ class FAISSVectorStore:
 
         self.dimension = config["dimension"]
         self.index_type = config["index_type"]
+        self.nlist = config.get("nlist", self.nlist)
+        self.nprobe = config.get("nprobe", self.nprobe)
 
         # Load FAISS index
         index_path = path / "index.faiss"
         self.index = faiss.read_index(str(index_path))
+        if self.index_type == "IVFFlat":
+            self.index.nprobe = min(int(self.nprobe), self.index.nlist)
 
         # Load document metadata
         metadata_path = path / "documents.pkl"
@@ -152,5 +181,7 @@ class FAISSVectorStore:
             "total_vectors": self.index.ntotal if self.index else 0,
             "dimension": self.dimension,
             "index_type": self.index_type,
+            "nlist": self.index.nlist if self.index_type == "IVFFlat" and self.index else None,
+            "nprobe": self.index.nprobe if self.index_type == "IVFFlat" and self.index else None,
             "total_documents": len(self.documents)
         }

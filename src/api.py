@@ -24,7 +24,9 @@ rag_pipeline = RAGPipeline(
     llm_model=settings.model_name,
     chunk_size=settings.max_chunk_size,
     chunk_overlap=settings.chunk_overlap,
-    index_type=settings.faiss_index_type
+    index_type=settings.faiss_index_type,
+    nlist=settings.faiss_nlist,
+    nprobe=settings.faiss_nprobe,
 )
 
 # Load index at startup if it exists
