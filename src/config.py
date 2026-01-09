@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     # LLM Configuration
     openai_api_key: Optional[str] = None
     anthropic_api_key: Optional[str] = None
+    mistral_api_key: Optional[str] = None
     model_name: str = "gpt-4-turbo-preview"
 
     # Embedding Model

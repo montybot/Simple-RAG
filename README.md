@@ -8,8 +8,9 @@ A professional Retrieval-Augmented Generation (RAG) system combining Docling for
 - **Vector Search**: Fast similarity search with FAISS indexing
 - **LLM Integration**: Generate answers using OpenAI or other LLMs via LangChain
 - **REST API**: FastAPI-based API for easy integration
-- **Docker Support**: Containerized deployment for reproducibility
+- **Docker Support**: Containerized deployment with UV for ultra-fast builds
 - **CLI Tools**: Command-line utilities for indexing and querying
+- **UV Package Manager**: 10-100x faster dependency installation than pip
 
 ## Quick Start
 
@@ -33,9 +34,13 @@ nano .env
 
 ### 2. Build the Docker Image
 
+The system uses **UV** for ultra-fast dependency installation (10-100x faster than pip):
+
 ```bash
 docker compose -f docker/docker-compose.yml build
 ```
+
+> **Note:** First build takes longer due to UV installation, but dependency installation is significantly faster than traditional pip.
 
 ### 3. Add Documents
 
@@ -244,13 +249,40 @@ See [notebooks/simple_example.py](notebooks/simple_example.py) for a complete ex
 
 ## Configuration
 
-Edit `.env` file to configure:
+### LLM Providers
 
+The system supports **multiple LLM providers**. Choose one:
+
+#### Option 1: OpenAI (Default)
 ```bash
-# LLM Configuration
 OPENAI_API_KEY=sk-your-key-here
 MODEL_NAME=gpt-4-turbo-preview
+```
 
+#### Option 2: Anthropic Claude
+```bash
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+MODEL_NAME=claude-3-5-sonnet-20241022
+```
+
+#### Option 3: Mistral AI
+```bash
+MISTRAL_API_KEY=your-mistral-key-here
+MODEL_NAME=mistral-large-latest
+# Also supports: mistral-embed for embeddings
+```
+
+#### Option 4: Ollama (Local - FREE!)
+```bash
+MODEL_NAME=llama3.2
+# No API key needed!
+```
+
+**See [docs/LLM_PROVIDERS.md](docs/LLM_PROVIDERS.md) for detailed setup instructions.**
+
+### Other Settings
+
+```bash
 # Embedding Model
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 EMBEDDING_DIMENSION=384
@@ -291,6 +323,27 @@ pytest --cov=src tests/
 ```
 
 ### Local Development (without Docker)
+
+#### Option 1: Using UV (Recommended - 10-100x faster)
+
+```bash
+# Install UV if not already installed
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install dependencies with UV
+uv pip install -r docker/requirements.txt
+
+# Run the API server
+uvicorn src.api:app --reload --port 8000
+
+# Build index
+python scripts/build_index.py --input-dir data/raw
+
+# Query
+python scripts/query.py "Your question"
+```
+
+#### Option 2: Using pip
 
 ```bash
 # Install dependencies
@@ -335,7 +388,15 @@ docker compose -f docker/docker-compose.yml logs
 
 ## Advanced Usage
 
-For detailed documentation, see [CLAUDE.md](CLAUDE.md).
+### Documentation
+
+- **Complete System Guide**: [CLAUDE.md](CLAUDE.md)
+- **LLM Provider Setup**: [docs/LLM_PROVIDERS.md](docs/LLM_PROVIDERS.md)
+- **Mistral AI Guide**: [docs/MISTRAL_SETUP.md](docs/MISTRAL_SETUP.md)
+- **Quick Provider Setup**: [docs/QUICK_START_PROVIDERS.md](docs/QUICK_START_PROVIDERS.md)
+- **UV Package Manager**: [docs/UV_USAGE.md](docs/UV_USAGE.md)
+- **Interaction Guide**: [INTERACTION_GUIDE.md](INTERACTION_GUIDE.md)
+- **Jupyter Notebook**: [notebooks/rag_exploration.ipynb](notebooks/rag_exploration.ipynb)
 
 ## License
 

@@ -3,7 +3,12 @@
 # Core dependencies
 langchain==0.2.0
 langchain-community==0.2.0
+
+# LLM Providers (multiple options supported)
 langchain-openai==0.1.0
+langchain-anthropic==0.1.0
+langchain-mistralai==0.1.0
+langchain-ollama==0.1.0
 
 # Document processing
 docling==1.5.0

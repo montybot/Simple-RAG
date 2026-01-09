@@ -170,9 +170,66 @@ class RAGPipeline:
 
         return "\n".join(context_parts)
 
+    def _get_llm(self):
+        """
+        Get LLM instance based on model name.
+
+        Supports multiple providers:
+        - OpenAI (gpt-4, gpt-3.5-turbo, etc.)
+        - Anthropic (claude-3-5-sonnet, claude-3-opus, etc.)
+        - Mistral AI (mistral-large, mistral-medium, mistral-small, etc.)
+        - Ollama (llama3.2, mistral, codellama, etc.)
+
+        Returns:
+            LangChain LLM instance
+        """
+        model_lower = self.llm_model.lower()
+
+        try:
+            # Anthropic Claude
+            if "claude" in model_lower or "anthropic" in model_lower:
+                from langchain_anthropic import ChatAnthropic
+                logger.info(f"Using Anthropic Claude: {self.llm_model}")
+                return ChatAnthropic(model=self.llm_model, temperature=0)
+
+            # Mistral AI API (mistral-large, mistral-medium, mistral-small, etc.)
+            elif "mistral-" in model_lower or "open-mistral" in model_lower:
+                from langchain_mistralai import ChatMistralAI
+                logger.info(f"Using Mistral AI API: {self.llm_model}")
+                return ChatMistralAI(model=self.llm_model, temperature=0)
+
+            # Local Ollama (llama, mistral without dash, codellama, etc.)
+            elif "llama" in model_lower or (("mistral" in model_lower or "ollama" in model_lower) and "-" not in model_lower):
+                from langchain_ollama import ChatOllama
+                logger.info(f"Using Ollama local model: {self.llm_model}")
+                return ChatOllama(
+                    model=self.llm_model,
+                    temperature=0,
+                    base_url="http://localhost:11434"
+                )
+
+            # Default to OpenAI
+            else:
+                from langchain_openai import ChatOpenAI
+                logger.info(f"Using OpenAI: {self.llm_model}")
+                return ChatOpenAI(model=self.llm_model, temperature=0)
+
+        except ImportError as e:
+            logger.error(f"Failed to import LLM provider: {e}")
+            logger.error("Install the required package:")
+            if "anthropic" in str(e):
+                logger.error("  pip install langchain-anthropic")
+            elif "mistralai" in str(e):
+                logger.error("  pip install langchain-mistralai")
+            elif "ollama" in str(e):
+                logger.error("  pip install langchain-ollama")
+            else:
+                logger.error("  pip install langchain-openai")
+            raise
+
     def _generate_answer(self, question: str, context: str) -> str:
         """
-        Generate answer using LLM.
+        Generate answer using LLM (supports multiple providers).
 
         Args:
             question: User's question
@@ -182,7 +239,6 @@ class RAGPipeline:
             Generated answer
         """
         try:
-            from langchain_openai import ChatOpenAI
             from langchain.prompts import PromptTemplate
 
             prompt = PromptTemplate(
@@ -198,7 +254,8 @@ Answer:""",
                 input_variables=["context", "question"]
             )
 
-            llm = ChatOpenAI(model=self.llm_model, temperature=0)
+            # Get LLM based on provider
+            llm = self._get_llm()
             chain = prompt | llm
 
             result = chain.invoke({"context": context, "question": question})
