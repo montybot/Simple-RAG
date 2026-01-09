@@ -194,6 +194,54 @@ python scripts/monitor.py
 python scripts/monitor.py --output json
 ```
 
+## Jupyter Notebook Usage
+
+For interactive exploration and development, use the included Jupyter notebook:
+
+### Launch Jupyter
+
+```bash
+# Install Jupyter if needed
+pip install jupyter
+
+# Start Jupyter from the project root
+jupyter notebook notebooks/rag_exploration.ipynb
+```
+
+### What the Notebook Covers
+
+The notebook [notebooks/rag_exploration.ipynb](notebooks/rag_exploration.ipynb) provides interactive examples for:
+
+1. **Document Processor** - Parse and chunk documents with Docling
+2. **Embedding Model** - Convert text to vectors with sentence-transformers
+3. **Vector Store** - Store and search with FAISS
+4. **RAG Pipeline** - Complete end-to-end system
+5. **REST API** - Interact via HTTP requests
+6. **Direct FAISS** - Explore index files directly
+7. **Utilities** - Helper functions for batch operations
+
+### Simple Python Example
+
+```python
+from src.rag_pipeline import RAGPipeline
+from pathlib import Path
+
+# Initialize pipeline
+rag = RAGPipeline(
+    embedding_model="sentence-transformers/all-MiniLM-L6-v2",
+    llm_model="gpt-4-turbo-preview"
+)
+
+# Load existing index
+rag.load_index(Path("data/indices/main_index"))
+
+# Query
+result = rag.query("What is RAG?", top_k=5)
+print(result.answer)
+```
+
+See [notebooks/simple_example.py](notebooks/simple_example.py) for a complete example.
+
 ## Configuration
 
 Edit `.env` file to configure:
