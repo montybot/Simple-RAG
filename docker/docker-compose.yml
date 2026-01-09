@@ -1,0 +1,34 @@
+# docker/docker-compose.yml
+version: '3.8'
+
+services:
+  rag-system:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: rag_system
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../data:/app/data
+      - ../src:/app/src
+      - ../logs:/app/logs
+      - faiss-index:/app/data/indices
+    environment:
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - FAISS_INDEX_TYPE=${FAISS_INDEX_TYPE:-IVFFlat}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    env_file:
+      - ../.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  faiss-index:
+    driver: local
