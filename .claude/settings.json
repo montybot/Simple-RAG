@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//home/michael/11 RAG/**)"
-    ]
-  }
-}
