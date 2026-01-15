@@ -18,11 +18,9 @@ logger = logging.getLogger(__name__)
 
 # URL of the CSV file
 CSV_URL = (
-    "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/"
-    "evenements-publics-openagenda/exports/csv/"
-    "?delimiters=%3B&lang=fr&refine=location_countrycode%3AFR"
-    "&refine=updatedat%3A2026&timezone=Europe%2FParis&use_labels=true"
-)
+    #"https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/exports/csv/?limit=10&delimiters=%3B&lang=fr&refine=location_city%3AParis&refine=location_countrycode%3AFR&timezone=Europe%2FParis&use_labels=true&refine=firstdate_begin%3A2026"
+    "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/exports/csv/?delimiters=%3B&lang=fr&refine=location_city%3AParis&refine=location_countrycode%3AFR&timezone=Europe%2FParis&use_labels=true&refine=firstdate_begin%3A2026"
+    )
 
 # Output directory and filename
 OUTPUT_DIR = Path(__file__).parent.parent / "data" / "raw"

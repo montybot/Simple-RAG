@@ -1,0 +1,132 @@
+[
+  {
+    "question": "Quels sont les événements musicaux prévus en janvier 2026 à Paris ?",
+    "answer": "En janvier 2026, les événements musicaux prévus à Paris sont les suivants :\n\n1. **LES TALENS LYRIQUES - \"Louis XIV au crépuscule\"**\n   - **Date** : Samedi 10 janvier 2026, 15h30\n   - **Lieu** : Salle Cortot (78 rue Cardinet, 75017 Paris)\n   - **Description** : Concert commenté avec des œuvres de François Couperin et Michel Pignolet de Montéclair, précédé d'une masterclass publique.\n   - **Distribution** : Lysandre Châlon (baryton-basse), Gilone Gaubert & Benjamin Chénier (violons), Atsushi Sakaï (viole de gambe), Christophe Rousset (direction et clavecin).\n\n2. **LE BALCON : LES LUNDIS MUSICAUX - Julie Fuchs & invités**\n   - **Date** : Lundi 26 janvier 2026, 20h00\n   - **Lieu** : Théâtre de l'Athénée Louis-Jouvet (7 rue Boudreau, 75009 Paris)\n   - **Description** : Soirée consacrée à Erik Satie avec Julie Fuchs (soprano), Félicien Brut (accordéon), Alexis Cárdenas (violon), Davide Vittone (contrebasse) et Alphonse Cemin (piano).\n\nCes deux événements sont les seuls mentionnés dans le contexte pour janvier 2026.",
+    "contexts": [
+      "**ID**: 96366915\n**Title**: LES TALENS LYRIQUES - \"Bach sans frontières\"\n**Description**: Christophe Rousset\n**Long Description**: <p>Giovanni Battista Pergolesi (1710-1736)<br>Cantate Orfeo, P.115 (c",
+      "**ID**: 49241558\n**Title**: LES TALENS LYRIQUES - \"Louis XIV au crépuscule\"\n**Description**: Les Talens Lyriques - Christophe Rousset\n**Long Description**: <p>Concert commenté, précédé d'une Mastercla",
+      "**ID**: 65189825\n**Title**: LES COULEURS DU SON : Naïssam Jalal \"Landscapes of Eternity\" @ New Morning\n**Description**: La flûtiste, vocaliste et compositrice Naïssam Jalal fêtera la sortie de son pro",
+      "**ID**: 79978729\n**Title**: LE BALCON : LES LUNDIS MUSICAUX - Julie Fuchs & invités\n**Description**: Pour cette soirée consacrée à la figure d’Erik Satie, Alphonse Cemin a convié Julie Fuchs, sa compl",
+      "**ID**: 99263760\n**Title**: LE BALCON : LES LUNDIS MUSICAUX - Paris est une fête\n**Description**: Le ténor Laurence Kilsby et la pianiste Ella O’Neill sont les deux étoiles montantes du récital à ne p"
+    ],
+    "ground_truth": "Il y a plusieurs événements musicaux en janvier 2026, notamment 'LE BALCON : LES LUNDIS MUSICAUX' avec Julie Fuchs le 26 janvier 2026.",
+    "category": "simple"
+  },
+  {
+    "question": "Y a-t-il des spectacles de théâtre ou des représentations théâtrales disponibles ?",
+    "answer": "Oui, il y a plusieurs spectacles de théâtre ou représentations théâtrales disponibles selon le contexte fourni. Voici les détails des spectacles mentionnés :\n\n1. **LES GRANDES ILLUSIONS**\n   - **Dates** : 7 - 18 avril 2026\n   - **Lieu** : Les Plateaux Sauvages, 5 rue des Platrières, 75020 Paris\n   - **Description** : Un spectacle sur les relations tendues entre une mère et son fils gay, abordant des thèmes comme l'homosexualité, les contradictions familiales et les \"grandes illusions\".\n\n2. **Représentation - Moi, Elles**\n   - **Dates** : 19 - 28 mars 2026\n   - **Lieu** : Théâtre Silvia Monfort, 106 rue Brancion, 75015 Paris\n   - **Description** : Une pièce explorant les relations mère-fille à travers des histoires de femmes de différentes origines culturelles.\n\n3. **HAMLET | Shakespeare**\n   - **Dates** : 21 janvier - 14 mars 2026\n   - **Lieu** : Odéon Théâtre de l'Europe, Pl. de l'Odéon, 75006 Paris\n   - **Description** : Une adaptation moderne de *Hamlet* par Christiane Jatahy, où le personnage principal est une femme.\n\n4. **Notre Humble Avis**\n   - **Dates** : 19 mai - 6 juin 2026\n   - **Lieu** : Athénée Théâtre Louis-Jouvet, 4 square de l'Opéra Louis-Jouvet, 75009 Paris\n   - **Description** : Un spectacle de théâtre de masque sur une émission de radio critique d'art.\n\n5. **Lettres non-écrites**\n   - **Dates** : 19 - 21 mars 2026\n   - **Lieu** : Théâtre des Bouffes du Nord, 37 bis Boulevard de la Chapelle, 75010 Paris\n   - **Description** : Une performance participative où des lettres non-écrites sont écrites et lues, puis intégrées dans une forme théâtrale.\n\nCes spectacles couvrent une variété de genres et de thèmes, allant du drame familial à",
+    "contexts": [
+      "**ID**: 59956692\n**Title**: LES GRANDES ILLUSIONS\n**Description**: Théâtre O - Laurent Charpentier\n**Long Description**: <p><strong>Laurent Charpentier et Arthur Dreyfus, entourés de toute l’équipe du",
+      "**ID**: 80142793\n**Title**: Représentation - Moi, Elles\n**Description**: Cie Abricotier d'Argent - Jing WANG\n**Long Description**: <p><em>Moi, Elles</em> est une pièce de théâtre qui aborde les relati",
+      "**ID**: 85976355\n**Title**: HAMLET | Shakespeare Mise en scène : Ivo Van Hove\n**Description**: Accessibilité : Surtitres français, surtitres anglais, langue des signes française et audiodescription\n**",
+      "**ID**: 9496616\n**Title**: Notre Humble Avis\n**Description**: Moya Krysa - Igor Mendjisky\n**Long Description**: <p>Après le succès de Masques et nez où il s’adonnait avec humour et passion à une vraie",
+      "**ID**: 60556432\n**Title**: Lettres non-écrites\n**Description**: Compagnie Lieux-dits / David Geselson\n**Long Description**: <p>Si vous avez un jour voulu écrire une lettre à quelqu’un sans jamais le "
+    ],
+    "ground_truth": "Oui, il y a des représentations théâtrales comme 'Lettres non-écrites' de la Compagnie Lieux-dits et 'Moi, Elles' de la Cie Abricotier d'Argent.",
+    "category": "simple"
+  },
+  {
+    "question": "Où se déroule l'événement 'Lettres non-écrites' ?",
+    "answer": "L'événement *Lettres non-écrites* se déroule au **Théâtre des Bouffes du Nord**, situé au **37 bis Boulevard de la Chapelle, 75010 Paris**. Les dates mentionnées dans le contexte sont les **19-21 mars 2026** et **12-13 mai 2026**.\n\n(Source : Documents 1 et 2)",
+    "contexts": [
+      "**ID**: 15602675\n**Title**: Lettres non-écrites\n**Description**: Compagnie Lieux-dits / David Geselson\n**Long Description**: <p>Si vous avez un jour voulu écrire une lettre à quelqu’un sans jamais le ",
+      "**ID**: 60556432\n**Title**: Lettres non-écrites\n**Description**: Compagnie Lieux-dits / David Geselson\n**Long Description**: <p>Si vous avez un jour voulu écrire une lettre à quelqu’un sans jamais le ",
+      "**ID**: 56713840\n**Title**: Lecture Zone blanche\n**Description**: Compagnie Cipango\n**Long Description**: <p>Première lecture publique de la prochaine création Zone blanche :</p>\n<p>Alors qu’ils s’app",
+      "**ID**: 59956692\n**Title**: LES GRANDES ILLUSIONS\n**Description**: Théâtre O - Laurent Charpentier\n**Long Description**: <p><strong>Laurent Charpentier et Arthur Dreyfus, entourés de toute l’équipe du",
+      "**ID**: 96366915\n**Title**: LES TALENS LYRIQUES - \"Bach sans frontières\"\n**Description**: Christophe Rousset\n**Long Description**: <p>Giovanni Battista Pergolesi (1710-1736)<br>Cantate Orfeo, P.115 (c"
+    ],
+    "ground_truth": "L'événement 'Lettres non-écrites' se déroule à Paris, dans le 10ème arrondissement (code postal 75010).",
+    "category": "simple"
+  },
+  {
+    "question": "Quand commence l'événement 'LE BALCON : LES LUNDIS MUSICAUX - Julie Fuchs & invités' ?",
+    "answer": "L'événement **'LE BALCON : LES LUNDIS MUSICAUX - Julie Fuchs & invités'** commence le **lundi 26 janvier 2026 à 20h00**.\n\n(Source : Document 1)",
+    "contexts": [
+      "**ID**: 79978729\n**Title**: LE BALCON : LES LUNDIS MUSICAUX - Julie Fuchs & invités\n**Description**: Pour cette soirée consacrée à la figure d’Erik Satie, Alphonse Cemin a convié Julie Fuchs, sa compl",
+      "**ID**: 24244224\n**Title**: LE BALCON : LES LUNDIS MUSICAUX - Alice Coote & Julius Drake\n**Description**: Julius Drake revient aux Lundis Musicaux accompagné de la mezzo-soprano Alice Coote.\n**Long De",
+      "**ID**: 9541644\n**Title**: LE BALCON : LES LUNDIS MUSICAUX - Huw Montague Rendall & Hélio Vida\n**Description**: Deux interprètes de talent pour quatre chefs-d’œuvre du récital.\n**Long Description**: <",
+      "**ID**: 5148482\n**Title**: LE BALCON : LES LUNDIS MUSICAUX - Contes\n**Description**: Après avoir enflammé les planches de l’Athénée en 2023, les stars françaises Sandrine Piau et David Kadouch revienn",
+      "**ID**: 5142333\n**Title**: LE BALCON : LES LUNDIS MUSICAUX - Les Sept péchés capitaux\n**Description**: La mezzo-soprano Fleur Barron et la soprano Axelle Fanyo se retrouvent à l’Athénée pour une soiré"
+    ],
+    "ground_truth": "L'événement commence le 26 janvier 2026 à 19h00.",
+    "category": "simple"
+  },
+  {
+    "question": "Quels événements sont prévus en mai 2026 ?",
+    "answer": "D'après le contexte fourni, aucun événement n'est explicitement mentionné pour le mois de mai 2026. Les événements listés ont lieu en janvier, février, mars et juin 2026.\n\nSi vous avez besoin d'informations sur d'autres mois ou événements, merci de préciser.",
+    "contexts": [
+      "**ID**: 89396438\n**Title**: Les Rois de la Supply Chain 2026\n**Description**: 19ᵉ édition du forum réunissant les acteurs majeurs de la supply chain pour partager des projets innovants.\n**Long Descrip",
+      "**ID**: 26655261\n**Title**: SAVE THE DATE - Cybersécurité - Quelles innovations en Euopre\n**Description**: Soirée annuelle du Cercle Cyber de l’Institut G9+\n**Keywords**: Cercle Cyber\n**Start Date**: ",
+      "**ID**: 70597726\n**Title**: Journée Portes Ouvertes dédiées aux métiers du tourisme et de l'hôtellerie\n**Description**: Vous avez des questions sur l’apprentissage ? Vous avez besoin d’information sur",
+      "**ID**: 3149383\n**Title**: Ensemble 2E2M : Danses en-jeu(x)\n**Description**: Dans le cadre d'un partenariat avec le CRR de Paris - Ida Rubinstein\n**Long Description**: <p>En lien étroit avec les enjeu",
+      "**ID**: 65189825\n**Title**: LES COULEURS DU SON : Naïssam Jalal \"Landscapes of Eternity\" @ New Morning\n**Description**: La flûtiste, vocaliste et compositrice Naïssam Jalal fêtera la sortie de son pro"
+    ],
+    "ground_truth": "En mai 2026, il y a notamment l'événement 'Lettres non-écrites' prévu le 12 mai 2026.",
+    "category": "simple"
+  },
+  {
+    "question": "Y a-t-il des événements liés à la cybersécurité ou à la technologie ?",
+    "answer": "Oui, il y a un événement lié à la cybersécurité dans le contexte fourni :\n\n**SAVE THE DATE - Cybersécurité - Quelles innovations en Europe**\n- **Description** : Soirée annuelle du Cercle Cyber de l’Institut G9+.\n- **Date** : Mercredi 11 février 2026, de 18h30 à 21h00.\n- **Lieu** : HEC Alumni, 9 avenue Franklin Delano Roosevelt, 75008 Paris.\n\nCet événement semble être axé sur les innovations en cybersécurité en Europe. Aucun autre événement lié à la technologie n'est mentionné dans le contexte fourni.",
+    "contexts": [
+      "**ID**: 26655261\n**Title**: SAVE THE DATE - Cybersécurité - Quelles innovations en Euopre\n**Description**: Soirée annuelle du Cercle Cyber de l’Institut G9+\n**Keywords**: Cercle Cyber\n**Start Date**: ",
+      "**ID**: 89396438\n**Title**: Les Rois de la Supply Chain 2026\n**Description**: 19ᵉ édition du forum réunissant les acteurs majeurs de la supply chain pour partager des projets innovants.\n**Long Descrip",
+      "**ID**: 25319120\n**Title**: Session d'information en ligne - Diplôme \"Arts, Science et Gestion du Vin\"\n**Description**: Le Cordon Bleu Paris vous invite à une session d'information exclusive sur notre",
+      "**ID**: 53055860\n**Title**: FORUM DES METIERS ET DE L'EMPLOI DES JEUNES BY ACCOR\n**Description**: Accor  réunit plus de 30 hôtels lors du Forum des métiers et de l'emploi des jeunes dédié aux métiers ",
+      "**ID**: 70597726\n**Title**: Journée Portes Ouvertes dédiées aux métiers du tourisme et de l'hôtellerie\n**Description**: Vous avez des questions sur l’apprentissage ? Vous avez besoin d’information sur"
+    ],
+    "ground_truth": "Oui, il y a un événement 'SAVE THE DATE - Cybersécurité - Quelles innovations en Europe' organisé par le Cercle Cyber de l'Institut G9+, prévu le 11 février 2026.",
+    "category": "complexe"
+  },
+  {
+    "question": "Quels sont les événements culturels gratuits disponibles ?",
+    "answer": "D'après le contexte fourni, il n'y a pas d'événements culturels clairement indiqués comme étant **gratuits**. Cependant, voici les détails pertinents :\n\n1. **Document 3** (*La Vie parisienne*) mentionne que les **lunettes connectées** pour l'audiodescription sont **gratuites sur réservation**, mais le spectacle lui-même n'est pas gratuit (prix de billetterie non précisé).\n2. **Document 5** (*Tour de contes à la Grande Mosquée de Paris*) ne précise pas explicitement le prix, mais indique une réservation via *hello asso*, ce qui suggère un coût (même si non détaillé).\n\nAucun événement n'est clairement décrit comme **totalement gratuit** dans les documents fournis.\n\nSi vous cherchez des événements gratuits, il faudrait vérifier d'autres sources ou préciser les critères (ex : accès libre, tarifs réduits, etc.).",
+    "contexts": [
+      "**ID**: 96366915\n**Title**: LES TALENS LYRIQUES - \"Bach sans frontières\"\n**Description**: Christophe Rousset\n**Long Description**: <p>Giovanni Battista Pergolesi (1710-1736)<br>Cantate Orfeo, P.115 (c",
+      "**ID**: 59956692\n**Title**: LES GRANDES ILLUSIONS\n**Description**: Théâtre O - Laurent Charpentier\n**Long Description**: <p><strong>Laurent Charpentier et Arthur Dreyfus, entourés de toute l’équipe du",
+      "**ID**: 63166587\n**Title**: LA VIE PARISIENNE | Jacques Offenbach Mise en scène : Valérie Lesort\n**Description**: Accessibilité : surtitres français, anglais, audiodescription, langue des signes vidéo",
+      "**ID**: 5142333\n**Title**: LE BALCON : LES LUNDIS MUSICAUX - Les Sept péchés capitaux\n**Description**: La mezzo-soprano Fleur Barron et la soprano Axelle Fanyo se retrouvent à l’Athénée pour une soiré",
+      "**ID**: 19583203\n**Title**: Tour de contes à la Grande Mosquée de Paris\n**Description**: La Cour des Contes\n**Long Description**: <p>Un tour de contes de 1h / 1h30 dans les salons de la Grande Mosquée"
+    ],
+    "ground_truth": "Les informations sur la gratuité des événements ne sont pas systématiquement disponibles dans les données. Il faudrait vérifier les détails de chaque événement individuellement.",
+    "category": "complexe"
+  },
+  {
+    "question": "Peux-tu me donner des informations sur les événements avec Erik Satie au programme ?",
+    "answer": "Je ne trouve aucune mention d'Erik Satie dans les documents fournis. Si vous cherchez des informations sur des événements avec Erik Satie au programme, je ne peux pas répondre à partir du contexte donné.\n\nSi vous avez d'autres sources ou documents à consulter, n'hésitez pas à les partager pour que je puisse vous aider davantage.",
+    "contexts": [
+      "**ID**: 3149383\n**Title**: Ensemble 2E2M : Danses en-jeu(x)\n**Description**: Dans le cadre d'un partenariat avec le CRR de Paris - Ida Rubinstein\n**Long Description**: <p>En lien étroit avec les enjeu",
+      "**ID**: 96366915\n**Title**: LES TALENS LYRIQUES - \"Bach sans frontières\"\n**Description**: Christophe Rousset\n**Long Description**: <p>Giovanni Battista Pergolesi (1710-1736)<br>Cantate Orfeo, P.115 (c",
+      "**ID**: 36311655\n**Title**: COURT-CIRCUIT - L'homme qui aimait les chiens\n**Description**: Opéra de chambre pour 7 musiciens et 6 chanteurs de Fernando Fiszbein sur un livret d’Agnès Jaoui et Fernando",
+      "**ID**: 11089511\n**Title**: COURT-CIRCUIT - L'homme qui aimait les chiens\n**Description**: Opéra de chambre pour 7 musiciens et 6 chanteurs de Fernando Fiszbein sur un livret d’Agnès Jaoui et Fernando",
+      "**ID**: 34511602\n**Title**: LES TALENS LYRIQUES - Les Leçons de Ténèbres, Couperin\n**Description**: Christophe Rousset\n**Long Description**: <p>Concert commenté, précédé d'une Masterclass publique à 1"
+    ],
+    "ground_truth": "Oui, l'événement 'LE BALCON : LES LUNDIS MUSICAUX - Julie Fuchs & invités' le 26 janvier 2026 est consacré à la figure d'Erik Satie.",
+    "category": "complexe"
+  },
+  {
+    "question": "Existe-t-il des événements organisés par la Compagnie Lieux-dits ?",
+    "answer": "Oui, selon le contexte fourni, la Compagnie Lieux-dits organise des événements liés au projet *Lettres non-écrites*. Voici les détails pertinents :\n\n1. **Événement \"Lettres non-écrites\"** :\n   - **Dates** :\n     - 19-21 mars 2026 (Document 1)\n     - 12-13 mai 2026 (Document 2)\n   - **Lieu** : Théâtre des Bouffes du Nord (37 bis Boulevard de la Chapelle, 75010 Paris).\n   - **Description** : Activité participative où des spectateurs racontent une lettre non-écrite, qui est ensuite écrite et lue par David Geselson. Certaines lettres peuvent être utilisées anonymement pour des performances théâtrales improvisées.\n\n2. **Autres informations** :\n   - Le projet a déjà été présenté dans plusieurs villes (Orléans, Toulouse, New York, etc.).\n   - La compagnie est conventionnée par le ministère de la Culture (DRAC Île-de-France).\n   - Le texte *Lettres non-écrites* est publié aux éditions Le Tripode et traduit en espagnol.\n\nPour plus de détails, vous pouvez consulter les liens de billetterie mentionnés dans les documents.",
+    "contexts": [
+      "**ID**: 60556432\n**Title**: Lettres non-écrites\n**Description**: Compagnie Lieux-dits / David Geselson\n**Long Description**: <p>Si vous avez un jour voulu écrire une lettre à quelqu’un sans jamais le ",
+      "**ID**: 15602675\n**Title**: Lettres non-écrites\n**Description**: Compagnie Lieux-dits / David Geselson\n**Long Description**: <p>Si vous avez un jour voulu écrire une lettre à quelqu’un sans jamais le ",
+      "**ID**: 56713840\n**Title**: Lecture Zone blanche\n**Description**: Compagnie Cipango\n**Long Description**: <p>Première lecture publique de la prochaine création Zone blanche :</p>\n<p>Alors qu’ils s’app",
+      "**ID**: 48168738\n**Title**: LE CERCLE DE CRAIE CAUCASIEN | Bertolt Brecht\n**Description**: Accessibilité : surtitres français, surtitres anglais, surtitres adaptés et audiodescription\n**Long Descripti",
+      "**ID**: 45903430\n**Title**: \"           \"\n**Description**: L'immédiat - Camille Boitel et Sève Bernard\n**Long Description**: <p>C’est une pièce brisée dont on ne voit que des morcea\u001bux, que le reg\u001bard"
+    ],
+    "ground_truth": "Oui, la Compagnie Lieux-dits organise l'événement 'Lettres non-écrites' de David Geselson.",
+    "category": "simple"
+  },
+  {
+    "question": "Quel temps fera-t-il demain à Paris ?",
+    "answer": "Le contexte fourni ne contient aucune information sur la météo ou les prévisions météorologiques pour Paris. Je ne peux donc pas répondre à cette question.",
+    "contexts": [
+      "**ID**: 63166587\n**Title**: LA VIE PARISIENNE | Jacques Offenbach Mise en scène : Valérie Lesort\n**Description**: Accessibilité : surtitres français, anglais, audiodescription, langue des signes vidéo",
+      "**ID**: 48202647\n**Title**: Journée Porte Ouverte FERRANDI Paris\n**Description**: L'école FERRANDI Paris vous accueille pour faire de votre visite un moment précieux dans la réflexion sur votre orient",
+      "**ID**: 45903430\n**Title**: \"           \"\n**Description**: L'immédiat - Camille Boitel et Sève Bernard\n**Long Description**: <p>C’est une pièce brisée dont on ne voit que des morcea\u001bux, que le reg\u001bard",
+      "**ID**: 53055860\n**Title**: FORUM DES METIERS ET DE L'EMPLOI DES JEUNES BY ACCOR\n**Description**: Accor  réunit plus de 30 hôtels lors du Forum des métiers et de l'emploi des jeunes dédié aux métiers ",
+      "**ID**: 90738052\n**Title**: Le Roi, la Reine et le Bouffon\n**Description**: Cie La Grande T - Clémence Coullon\n**Long Description**: <p>Il était une fois un roi et une reine vraiment très méchants, et"
+    ],
+    "ground_truth": "Cette question concerne la météo et n'est pas liée aux événements culturels. Le système ne devrait pas pouvoir y répondre avec les données disponibles.",
+    "category": "piège"
+  }
+]

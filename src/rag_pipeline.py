@@ -62,6 +62,29 @@ class RAGPipeline:
 
         logger.info("RAG Pipeline initialized successfully")
 
+    def reset_index(self):
+        """
+        Reset the vector store index to empty state.
+
+        This should be called before rebuilding the index from scratch.
+        """
+        logger.info("Resetting vector store index")
+
+        # Store parameters before resetting
+        index_type = self.vector_store.index_type
+        nlist = self.vector_store.nlist
+        nprobe = self.vector_store.nprobe
+
+        # Completely reinitialize the vector store
+        self.vector_store = FAISSVectorStore(
+            dimension=self.embedding_model.dimension,
+            index_type=index_type,
+            nlist=nlist,
+            nprobe=nprobe,
+        )
+
+        logger.info(f"Vector store index reset successfully. Index is now empty.")
+
     def index_documents(self, input_dir: Path):
         """
         Index all documents from a directory.
@@ -104,13 +127,25 @@ class RAGPipeline:
         elapsed = time.time() - start
         logger.info(f"Indexing completed in {elapsed:.2f}s. Total documents: {len(processed_docs)}, Total chunks: {len(all_chunks)}")
 
-    def query(self, question: str, top_k: int = 5) -> RAGResult:
+    def query(
+        self,
+        question: str,
+        top_k: int = 5,
+        temperature: float = 0.7,
+        max_tokens: int = 512,
+        top_p: float = 0.9,
+        system_prompt: str = None
+    ) -> RAGResult:
         """
         Execute a RAG query.
 
         Args:
             question: User's question
             top_k: Number of documents to retrieve
+            temperature: LLM temperature (0.0 to 1.0)
+            max_tokens: Maximum tokens in response
+            top_p: LLM top_p sampling parameter
+            system_prompt: Optional system prompt for LLM (NOT used in vector search)
 
         Returns:
             RAGResult with answer and sources
@@ -136,7 +171,14 @@ class RAGPipeline:
         context = self._build_context(results)
 
         # 4. Generate answer using LLM
-        answer = self._generate_answer(question, context)
+        answer = self._generate_answer(
+            question,
+            context,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            top_p=top_p,
+            system_prompt=system_prompt
+        )
 
         # 5. Format sources
         sources = [
@@ -176,15 +218,20 @@ class RAGPipeline:
 
         return "\n".join(context_parts)
 
-    def _get_llm(self):
+    def _get_llm(self, temperature: float = 0.7, max_tokens: int = 512, top_p: float = 0.9):
         """
-        Get LLM instance based on model name.
+        Get LLM instance based on model name with configurable parameters.
 
         Supports multiple providers:
         - OpenAI (gpt-4, gpt-3.5-turbo, etc.)
         - Anthropic (claude-3-5-sonnet, claude-3-opus, etc.)
         - Mistral AI (mistral-large, mistral-medium, mistral-small, etc.)
         - Ollama (llama3.2, mistral, codellama, etc.)
+
+        Args:
+            temperature: Sampling temperature (0.0 to 1.0)
+            max_tokens: Maximum tokens in response
+            top_p: Top-p sampling parameter
 
         Returns:
             LangChain LLM instance
@@ -196,13 +243,23 @@ class RAGPipeline:
             if "claude" in model_lower or "anthropic" in model_lower:
                 from langchain_anthropic import ChatAnthropic
                 logger.info(f"Using Anthropic Claude: {self.llm_model}")
-                return ChatAnthropic(model=self.llm_model, temperature=0)
+                return ChatAnthropic(
+                    model=self.llm_model,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    top_p=top_p
+                )
 
             # Mistral AI API (mistral-large, mistral-medium, mistral-small, etc.)
             elif "mistral-" in model_lower or "open-mistral" in model_lower:
                 from langchain_mistralai import ChatMistralAI
                 logger.info(f"Using Mistral AI API: {self.llm_model}")
-                return ChatMistralAI(model=self.llm_model, temperature=0)
+                return ChatMistralAI(
+                    model=self.llm_model,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    top_p=top_p
+                )
 
             # Local Ollama (llama, mistral without dash, codellama, etc.)
             elif "llama" in model_lower or (("mistral" in model_lower or "ollama" in model_lower) and "-" not in model_lower):
@@ -210,7 +267,9 @@ class RAGPipeline:
                 logger.info(f"Using Ollama local model: {self.llm_model}")
                 return ChatOllama(
                     model=self.llm_model,
-                    temperature=0,
+                    temperature=temperature,
+                    num_predict=max_tokens,  # Ollama uses num_predict instead of max_tokens
+                    top_p=top_p,
                     base_url="http://localhost:11434"
                 )
 
@@ -218,7 +277,12 @@ class RAGPipeline:
             else:
                 from langchain_openai import ChatOpenAI
                 logger.info(f"Using OpenAI: {self.llm_model}")
-                return ChatOpenAI(model=self.llm_model, temperature=0)
+                return ChatOpenAI(
+                    model=self.llm_model,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    top_p=top_p
+                )
 
         except ImportError as e:
             logger.error(f"Failed to import LLM provider: {e}")
@@ -233,13 +297,25 @@ class RAGPipeline:
                 logger.error("  pip install langchain-openai")
             raise
 
-    def _generate_answer(self, question: str, context: str) -> str:
+    def _generate_answer(
+        self,
+        question: str,
+        context: str,
+        temperature: float = 0.7,
+        max_tokens: int = 512,
+        top_p: float = 0.9,
+        system_prompt: str = None
+    ) -> str:
         """
         Generate answer using LLM (supports multiple providers).
 
         Args:
             question: User's question
             context: Retrieved context
+            temperature: LLM temperature
+            max_tokens: Maximum tokens in response
+            top_p: Top-p sampling parameter
+            system_prompt: Optional system prompt to guide LLM behavior
 
         Returns:
             Generated answer
@@ -250,8 +326,19 @@ class RAGPipeline:
             except ImportError:
                 from langchain_core.prompts import PromptTemplate
 
-            prompt = PromptTemplate(
-                template="""Use the following context to answer the question.
+            # Build prompt template based on whether system_prompt is provided
+            if system_prompt:
+                template = """{system_prompt}
+
+Context:
+{context}
+
+Question: {question}
+
+Answer:"""
+                input_vars = ["system_prompt", "context", "question"]
+            else:
+                template = """Use the following context to answer the question.
 If you cannot find the answer in the context, say so clearly.
 
 Context:
@@ -259,15 +346,32 @@ Context:
 
 Question: {question}
 
-Answer:""",
-                input_variables=["context", "question"]
+Answer:"""
+                input_vars = ["context", "question"]
+
+            prompt = PromptTemplate(
+                template=template,
+                input_variables=input_vars
             )
 
-            # Get LLM based on provider
-            llm = self._get_llm()
+            # Get LLM based on provider with specified parameters
+            llm = self._get_llm(
+                temperature=temperature,
+                max_tokens=max_tokens,
+                top_p=top_p
+            )
             chain = prompt | llm
 
-            result = chain.invoke({"context": context, "question": question})
+            # Invoke with appropriate variables
+            if system_prompt:
+                result = chain.invoke({
+                    "system_prompt": system_prompt,
+                    "context": context,
+                    "question": question
+                })
+            else:
+                result = chain.invoke({"context": context, "question": question})
+
             return result.content
 
         except Exception as e:

@@ -3,6 +3,7 @@ from docling.document_converter import DocumentConverter
 from pathlib import Path
 from typing import List, Dict
 from loguru import logger
+from .csv_processor import CSVProcessor
 
 
 class DocumentProcessor:
@@ -17,6 +18,7 @@ class DocumentProcessor:
             chunk_overlap: Overlap between consecutive chunks
         """
         self.converter = DocumentConverter()
+        self.csv_processor = CSVProcessor()
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         logger.info(f"DocumentProcessor initialized with chunk_size={chunk_size}, overlap={chunk_overlap}")
@@ -34,7 +36,11 @@ class DocumentProcessor:
         logger.info(f"Processing document: {file_path}")
 
         try:
-            # Convert document using Docling
+            # Use specialized CSV processor for CSV files
+            if file_path.suffix.lower() == '.csv':
+                return self._process_csv_document(file_path)
+
+            # Convert document using Docling for other formats
             result = self.converter.convert(str(file_path))
 
             # Extract text as markdown
@@ -61,6 +67,44 @@ class DocumentProcessor:
         except Exception as e:
             logger.error(f"Error processing {file_path}: {e}")
             raise
+
+    def _process_csv_document(self, file_path: Path) -> Dict:
+        """
+        Process CSV files with structured field preservation.
+
+        Args:
+            file_path: Path to the CSV file
+
+        Returns:
+            Dict containing structured chunks and metadata
+        """
+        logger.info(f"Processing CSV with structured parser: {file_path}")
+
+        # Get structured chunks from CSV processor
+        csv_chunks = self.csv_processor.process_csv(file_path)
+
+        # Extract just the text chunks
+        chunks = [chunk['text'] for chunk in csv_chunks]
+
+        # Store all metadata from the first chunk (file-level info)
+        first_chunk_metadata = csv_chunks[0]['metadata'] if csv_chunks else {}
+
+        metadata = {
+            "file_path": str(file_path),
+            "text": "\n\n---\n\n".join(chunks),
+            "chunks": chunks,
+            "metadata": {
+                "title": file_path.stem,
+                "page_count": len(csv_chunks),  # Each row is like a "page"
+                "format": file_path.suffix,
+                "chunk_count": len(chunks),
+                "source_type": "csv_structured"
+            },
+            "csv_metadata": [chunk['metadata'] for chunk in csv_chunks]
+        }
+
+        logger.info(f"Successfully processed CSV {file_path}: {len(chunks)} structured events")
+        return metadata
 
     def _create_chunks(self, text: str) -> List[str]:
         """
@@ -99,7 +143,7 @@ class DocumentProcessor:
         """
         logger.info(f"Processing directory: {directory}")
         results = []
-        supported_formats = ['.pdf', '.docx', '.txt', '.html', '.md']
+        supported_formats = ['.pdf', '.docx', '.txt', '.html', '.md', '.csv']
 
         for file_path in directory.rglob("*"):
             if file_path.is_file() and file_path.suffix.lower() in supported_formats:

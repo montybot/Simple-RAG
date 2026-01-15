@@ -1,407 +1,128 @@
 # RAG System with Docling, FAISS and LangChain
 
-A professional Retrieval-Augmented Generation (RAG) system combining Docling for document processing, FAISS for vector search, and LangChain for LLM orchestration.
+A professional Retrieval-Augmented Generation (RAG) system for querying document collections.
 
 ## Features
 
-- **Document Processing**: Parse PDF, DOCX, HTML, Markdown, and text files using Docling
-- **Vector Search**: Fast similarity search with FAISS indexing
-- **LLM Integration**: Generate answers using OpenAI or other LLMs via LangChain
-- **REST API**: FastAPI-based API for easy integration
-- **Docker Support**: Containerized deployment with UV for ultra-fast builds
-- **CLI Tools**: Command-line utilities for indexing and querying
-- **UV Package Manager**: 10-100x faster dependency installation than pip
+- **Document Processing**: PDF, DOCX, HTML, Markdown, CSV files via Docling
+- **Vector Search**: Fast similarity search with FAISS
+- **Multi-LLM Support**: OpenAI, Anthropic, Mistral AI, Ollama (local)
+- **Web Interface**: Streamlit app for interactive queries
+- **REST API**: FastAPI server for integration
+- **RAG Evaluation**: Quality assessment with RAGAS metrics
+- **Docker**: Containerized deployment with UV package manager
 
 ## Quick Start
 
 ### Prerequisites
 
 - Docker and Docker Compose
-- OpenAI API key (or other LLM provider)
+- API key for your LLM provider (OpenAI, Mistral, Anthropic) or Ollama for local
 
-### 1. Setup
-
-Clone the repository and configure your environment:
+### Setup
 
 ```bash
-# Copy the example environment file
+# Configure environment
 cp .env.example .env
+nano .env  # Add your API key
 
-# Edit .env and add your API key
-nano .env
-# Add your OPENAI_API_KEY=sk-...
-```
-
-### 2. Build the Docker Image
-
-The system uses **UV** for ultra-fast dependency installation (10-100x faster than pip):
-
-```bash
+# Build and start
 docker compose -f docker/docker-compose.yml build
-```
-
-> **Note:** First build takes longer due to UV installation, but dependency installation is significantly faster than traditional pip.
-
-### 3. Add Documents
-
-Place your documents in the `data/raw/` directory:
-
-```bash
-cp /path/to/your/documents/*.pdf data/raw/
-```
-
-### 4. Build the Index
-
-```bash
-docker compose -f docker/docker-compose.yml run --rm rag-system \
-  python scripts/build_index.py
-```
-
-### 5. Start the API Server
-
-```bash
 docker compose -f docker/docker-compose.yml up -d
 ```
 
-### 6. Query the System
+### Add Documents
 
-#### Using the API:
+```bash
+# Copy documents to data/raw/
+cp /path/to/documents/* data/raw/
 
+# Build the index
+docker compose -f docker/docker-compose.yml exec rag-system \
+  python scripts/build_index.py
+```
+
+### Query
+
+**Via API:**
 ```bash
 curl -X POST http://localhost:8000/query \
   -H "Content-Type: application/json" \
-  -d '{
-    "question": "What is RAG?",
-    "top_k": 5
-  }'
+  -d '{"question": "Your question here", "top_k": 5}'
 ```
 
-#### Using the CLI:
-
+**Via Streamlit UI:**
 ```bash
 docker compose -f docker/docker-compose.yml exec rag-system \
-  python scripts/query.py "What is RAG?"
+  streamlit run src/streamlit_app.py --server.port 8501
 ```
 
 ## Project Structure
 
 ```
 projet_11_rag/
-├── docker/              # Docker configuration
-│   ├── Dockerfile
-│   ├── docker-compose.yml
-│   └── requirements.txt
-├── src/                 # Source code
-│   ├── config.py        # Configuration management
-│   ├── document_processor.py  # Document parsing
-│   ├── embeddings.py    # Embedding generation
-│   ├── vector_store.py  # FAISS vector store
-│   ├── rag_pipeline.py  # RAG pipeline
-│   └── api.py          # FastAPI server
-├── scripts/            # CLI utilities
-│   ├── build_index.py  # Index builder
-│   ├── query.py        # Query tool
-│   └── monitor.py      # System monitor
-├── data/               # Data storage
-│   ├── raw/           # Source documents
-│   ├── processed/     # Processed documents
-│   └── indices/       # FAISS indices
-└── tests/             # Test suite
+├── docker/                 # Docker configuration
+├── src/                    # Source code
+│   ├── api.py             # FastAPI server
+│   ├── rag_pipeline.py    # RAG pipeline
+│   ├── csv_processor.py   # CSV document processing
+│   └── streamlit_app.py   # Web interface
+├── scripts/               # CLI utilities
+├── data/                  # Documents and indices
+├── tests/                 # Test suite
+└── docs/                  # Documentation
 ```
 
 ## API Endpoints
 
-### Health Check
-
-```bash
-GET /health
-```
-
-Returns system status and index statistics.
-
-### Query
-
-```bash
-POST /query
-Content-Type: application/json
-
-{
-  "question": "Your question here",
-  "top_k": 5
-}
-```
-
-Returns answer with sources and metadata.
-
-### Upload Document
-
-```bash
-POST /documents/upload
-Content-Type: multipart/form-data
-
-file: document.pdf
-```
-
-Uploads and indexes a new document.
-
-### Rebuild Index
-
-```bash
-POST /index/rebuild
-```
-
-Rebuilds the entire index from scratch.
-
-### Statistics
-
-```bash
-GET /stats
-```
-
-Returns detailed system statistics.
-
-## CLI Usage
-
-### Build Index
-
-```bash
-# Basic usage
-python scripts/build_index.py
-
-# With options
-python scripts/build_index.py \
-  --input-dir /path/to/docs \
-  --output-dir /path/to/index \
-  --embedding-model sentence-transformers/all-mpnet-base-v2 \
-  --force-rebuild
-```
-
-### Query
-
-```bash
-# Basic query
-python scripts/query.py "What is machine learning?"
-
-# With options
-python scripts/query.py "What is ML?" \
-  --top-k 10 \
-  --output json \
-  --verbose
-```
-
-### Monitor
-
-```bash
-# Display statistics
-python scripts/monitor.py
-
-# JSON output
-python scripts/monitor.py --output json
-```
-
-## Jupyter Notebook Usage
-
-For interactive exploration and development, use the included Jupyter notebook:
-
-### Launch Jupyter
-
-```bash
-# Install Jupyter if needed
-pip install jupyter
-
-# Start Jupyter from the project root
-jupyter notebook notebooks/rag_exploration.ipynb
-```
-
-### What the Notebook Covers
-
-The notebook [notebooks/rag_exploration.ipynb](notebooks/rag_exploration.ipynb) provides interactive examples for:
-
-1. **Document Processor** - Parse and chunk documents with Docling
-2. **Embedding Model** - Convert text to vectors with sentence-transformers
-3. **Vector Store** - Store and search with FAISS
-4. **RAG Pipeline** - Complete end-to-end system
-5. **REST API** - Interact via HTTP requests
-6. **Direct FAISS** - Explore index files directly
-7. **Utilities** - Helper functions for batch operations
-
-### Simple Python Example
-
-```python
-from src.rag_pipeline import RAGPipeline
-from pathlib import Path
-
-# Initialize pipeline
-rag = RAGPipeline(
-    embedding_model="sentence-transformers/all-MiniLM-L6-v2",
-    llm_model="gpt-4-turbo-preview"
-)
-
-# Load existing index
-rag.load_index(Path("data/indices/main_index"))
-
-# Query
-result = rag.query("What is RAG?", top_k=5)
-print(result.answer)
-```
-
-See [notebooks/simple_example.py](notebooks/simple_example.py) for a complete example.
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | System health check |
+| `/query` | POST | Query the RAG system |
+| `/documents/upload` | POST | Upload and index a document |
+| `/index/rebuild` | POST | Rebuild the entire index |
+| `/stats` | GET | System statistics |
 
 ## Configuration
 
-### LLM Providers
-
-The system supports **multiple LLM providers**. Choose one:
-
-#### Option 1: OpenAI (Default)
-```bash
-OPENAI_API_KEY=sk-your-key-here
-MODEL_NAME=gpt-4-turbo-preview
-```
-
-#### Option 2: Anthropic Claude
-```bash
-ANTHROPIC_API_KEY=sk-ant-your-key-here
-MODEL_NAME=claude-3-5-sonnet-20241022
-```
-
-#### Option 3: Mistral AI
-```bash
-MISTRAL_API_KEY=your-mistral-key-here
-MODEL_NAME=mistral-large-latest
-# Also supports: mistral-embed for embeddings
-```
-
-#### Option 4: Ollama (Local - FREE!)
-```bash
-MODEL_NAME=llama3.2
-# No API key needed!
-```
-
-**See [docs/LLM_PROVIDERS.md](docs/LLM_PROVIDERS.md) for detailed setup instructions.**
-
-### Other Settings
+Set in `.env`:
 
 ```bash
+# LLM Provider (choose one)
+OPENAI_API_KEY=sk-...
+MISTRAL_API_KEY=...
+ANTHROPIC_API_KEY=...
+MODEL_NAME=mistral-small-latest  # or gpt-4-turbo-preview, claude-3-5-sonnet, llama3.2
+
 # Embedding Model
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-EMBEDDING_DIMENSION=384
 
-# FAISS Configuration
-FAISS_INDEX_TYPE=IVFFlat
-FAISS_NLIST=100
-FAISS_NPROBE=10
-
-# Application Settings
-LOG_LEVEL=INFO
+# RAG Settings
 MAX_CHUNK_SIZE=512
-CHUNK_OVERLAP=50
 TOP_K_RESULTS=5
 ```
 
-## Supported Document Formats
-
-- PDF (.pdf)
-- Microsoft Word (.docx)
-- HTML (.html)
-- Markdown (.md)
-- Text files (.txt)
-
-## Development
-
-### Running Tests
+## Testing
 
 ```bash
 # Run all tests
-pytest
+docker compose -f docker/docker-compose.yml exec rag-system pytest
 
-# Run specific test file
-pytest tests/test_document_processor.py
+# Data constraints validation
+python tests/test_data_constraints.py
 
-# Run with coverage
-pytest --cov=src tests/
+# RAG quality evaluation with RAGAS
+python tests/test_rag_evaluation.py
 ```
 
-### Local Development (without Docker)
+## Documentation
 
-#### Option 1: Using UV (Recommended - 10-100x faster)
-
-```bash
-# Install UV if not already installed
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Install dependencies with UV
-uv pip install -r docker/requirements.txt
-
-# Run the API server
-uvicorn src.api:app --reload --port 8000
-
-# Build index
-python scripts/build_index.py --input-dir data/raw
-
-# Query
-python scripts/query.py "Your question"
-```
-
-#### Option 2: Using pip
-
-```bash
-# Install dependencies
-pip install -r docker/requirements.txt
-
-# Run the API server
-uvicorn src.api:app --reload --port 8000
-
-# Build index
-python scripts/build_index.py --input-dir data/raw
-
-# Query
-python scripts/query.py "Your question"
-```
-
-## Troubleshooting
-
-### Index Not Found
-
-If you get "Index not found" errors, build the index first:
-
-```bash
-python scripts/build_index.py
-```
-
-### Out of Memory
-
-Reduce batch size or use a smaller embedding model:
-
-```bash
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-```
-
-### API Connection Refused
-
-Make sure the Docker container is running:
-
-```bash
-docker compose -f docker/docker-compose.yml ps
-docker compose -f docker/docker-compose.yml logs
-```
-
-## Advanced Usage
-
-### Documentation
-
-- **Complete System Guide**: [CLAUDE.md](CLAUDE.md)
-- **LLM Provider Setup**: [docs/LLM_PROVIDERS.md](docs/LLM_PROVIDERS.md)
-- **Mistral AI Guide**: [docs/MISTRAL_SETUP.md](docs/MISTRAL_SETUP.md)
-- **Quick Provider Setup**: [docs/QUICK_START_PROVIDERS.md](docs/QUICK_START_PROVIDERS.md)
-- **UV Package Manager**: [docs/UV_USAGE.md](docs/UV_USAGE.md)
-- **Interaction Guide**: [INTERACTION_GUIDE.md](INTERACTION_GUIDE.md)
-- **Jupyter Notebook**: [notebooks/rag_exploration.ipynb](notebooks/rag_exploration.ipynb)
+- [API Reference](docs/API.md)
+- [CSV Processing](docs/CSV_PROCESSING.md)
+- [LLM Parameters](docs/LLM_PARAMETERS.md)
+- [RAGAS Evaluation](docs/RAGAS_EVALUATION.md)
+- [System Prompt Architecture](docs/SYSTEM_PROMPT_ARCHITECTURE.md)
 
 ## License
 
 MIT
-
-## Contributing
-
-Contributions welcome! Please read the contributing guidelines before submitting PRs.

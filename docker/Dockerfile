@@ -39,8 +39,8 @@ COPY scripts/ ./scripts/
 # Create data directories
 RUN mkdir -p /app/data/raw /app/data/processed /app/data/indices /app/logs
 
-# Expose API port
-EXPOSE 8000
+# Expose API and Streamlit ports
+EXPOSE 8000 8001
 
-# Entry point
-CMD ["uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "8000"]
+# Entry point - Start both FastAPI and Streamlit
+CMD ["/bin/bash", "/app/scripts/start_services.sh"]

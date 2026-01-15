@@ -51,12 +51,20 @@ class QueryRequest(BaseModel):
     """Request model for query endpoint."""
     question: str
     top_k: int = 5
+    temperature: float = 0.7
+    max_tokens: int = 512
+    top_p: float = 0.9
+    system_prompt: str = None
 
     class Config:
         json_schema_extra = {
             "example": {
                 "question": "What is RAG?",
-                "top_k": 5
+                "top_k": 5,
+                "temperature": 0.7,
+                "max_tokens": 512,
+                "top_p": 0.9,
+                "system_prompt": "You are a helpful assistant."
             }
         }
 
@@ -145,7 +153,11 @@ async def query(request: QueryRequest):
 
         result = rag_pipeline.query(
             question=request.question,
-            top_k=request.top_k
+            top_k=request.top_k,
+            temperature=request.temperature,
+            max_tokens=request.max_tokens,
+            top_p=request.top_p,
+            system_prompt=request.system_prompt
         )
 
         # Convert sources to SourceInfo models
@@ -223,6 +235,9 @@ async def rebuild_index():
     """
     try:
         logger.info("Starting index rebuild")
+
+        # Reset the index to empty state
+        rag_pipeline.reset_index()
 
         # Re-index all documents
         rag_pipeline.index_documents(settings.raw_dir)
