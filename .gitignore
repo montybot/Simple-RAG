@@ -14,6 +14,7 @@ env/
 # Environment variables
 .env
 .env.local
+.claude
 
 # Data directories
 data/raw/*
@@ -22,6 +23,9 @@ data/indices/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/indices/.gitkeep
+
+# Test Directories
+tests/results/*
 
 # Logs
 logs/
